@@ -3,7 +3,7 @@ package com.mauricio.quiencrees
 import kotlin.random.Random
 
 class BarajaTu(tamBaraja: Int) {
-    private val baraja: List<CartaTu>
+    public val baraja: List<CartaTu>
     private val maxShots = 4
 
     init {
