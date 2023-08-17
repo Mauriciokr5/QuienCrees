@@ -6,47 +6,50 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".MainActivity"
-    android:id="@+id/cardContainer">
+    android:id="@+id/cardContainer"
+    android:gravity="center">
 
-    <!-- Agrega un CardView para crear el cuadro con bordes redondeados -->
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="50dp"
         app:cardElevation="8dp">
 
-        <!-- Agrega un LinearLayout dentro del CardView para el contenido -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="50dp"
+            android:gravity="center">
 
-            <!-- Agrega aquí los elementos que quieras mostrar en el cuadro -->
             <TextView
-                android:id="@+id/textViewQuestion"
+                android:id="@+id/textViewWelcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bienvenido a"
-                android:textSize="18sp" />
+                android:textSize="20dp"
+                android:gravity="center"
+                android:padding="10dp"/>
 
             <TextView
-                android:id="@+id/textViewFrase"
+                android:id="@+id/textViewTitleApp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="Quien crees que..."
-                android:textSize="18sp" />
+                android:textSize="40dp"
+                android:padding="15dp"/>
 
             <Button
                 android:id="@+id/buttonNext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Empezar" />
+                android:padding="20dp"
+                android:text="Empezar"
+                android:textSize="20dp"
+                android:layout_marginTop = "20dp"/>
 
-            <!-- Agrega otros elementos según tus necesidades -->
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

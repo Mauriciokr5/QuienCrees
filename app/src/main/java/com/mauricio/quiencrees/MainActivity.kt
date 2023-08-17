@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import android.widget.TextView
 import android.view.View
+import android.graphics.Typeface
+import androidx.core.content.ContextCompat
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,6 +20,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var barajaTu: BarajaTu
     private lateinit var cardContainer: LinearLayout
     private lateinit var buttonNext: Button
+    private lateinit var textViewWelcome: TextView
+    private lateinit var textViewTitleApp: TextView
     private var currentIndex = 0
     private var previousCardView: CardView? = null
     private var nextCard = 0
@@ -26,15 +31,46 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
+        var typeFaceBig = Typeface.createFromAsset(assets,"fonts/Gotham Regular.otf")
+        var typeFaceReg = Typeface.createFromAsset(assets,"fonts/Gotham Light.otf")
+
+        var lightColor = ContextCompat.getColor(this, R.color.light_color);
+        var darkColor = ContextCompat.getColor(this, R.color.dark_color);
+        var quienCardColor = ContextCompat.getColor(this, R.color.quien_card_color);
+        var tuCardColor = ContextCompat.getColor(this, R.color.tu_card_color);
+        var instructionCardColor = ContextCompat.getColor(this, R.color.instruction_card_color);
+
+
         barajaQuien = BarajaQuien(this)
         barajaTu = BarajaTu(barajaQuien.baraja.size)
+
         cardContainer = findViewById(R.id.cardContainer)
-        buttonNext = findViewById(R.id.buttonNext)
+
+
+
         cardView = findViewById(R.id.cardView)
+        cardView.setCardBackgroundColor(instructionCardColor)
+
+        textViewWelcome = findViewById(R.id.textViewWelcome)
+        textViewWelcome.typeface = typeFaceReg
+        textViewWelcome.setTextColor(lightColor)
+
+        textViewTitleApp = findViewById(R.id.textViewTitleApp)
+        textViewTitleApp.typeface = typeFaceBig
+        textViewTitleApp.setTextColor(lightColor)
+
+        buttonNext = findViewById(R.id.buttonNext)
+        buttonNext.setBackgroundColor(lightColor)
+        buttonNext.setBackgroundResource(R.drawable.rounded_button_background)
+        buttonNext.typeface = typeFaceBig
+        buttonNext.setTextColor(darkColor)
+
 
         buttonNext.setOnClickListener {
             showNextFrase()
