@@ -11,6 +11,8 @@ import android.widget.TextView
 import android.view.View
 import android.graphics.Typeface
 import androidx.core.content.ContextCompat
+import android.widget.ImageView
+
 
 
 
@@ -27,9 +29,14 @@ class MainActivity : AppCompatActivity() {
     private var nextCard = 0
     private lateinit var cartaTuActual: CartaTu
     private lateinit var cardView: CardView
+    private lateinit var typeFaceBig : Typeface
+    private lateinit var typeFaceReg :Typeface
 
-
-
+    private var lightColor : Int = 0
+    private var darkColor :Int = 0
+    private var quienCardColor :Int = 0
+    private var tuCardColor :Int = 0
+    private var instructionCardColor:Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,14 +44,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        var typeFaceBig = Typeface.createFromAsset(assets,"fonts/Gotham Regular.otf")
-        var typeFaceReg = Typeface.createFromAsset(assets,"fonts/Gotham Light.otf")
+        typeFaceBig = Typeface.createFromAsset(assets,"fonts/Gotham Regular.otf")
+        typeFaceReg = Typeface.createFromAsset(assets,"fonts/Gotham Light.otf")
 
-        var lightColor = ContextCompat.getColor(this, R.color.light_color);
-        var darkColor = ContextCompat.getColor(this, R.color.dark_color);
-        var quienCardColor = ContextCompat.getColor(this, R.color.quien_card_color);
-        var tuCardColor = ContextCompat.getColor(this, R.color.tu_card_color);
-        var instructionCardColor = ContextCompat.getColor(this, R.color.instruction_card_color);
+        lightColor = ContextCompat.getColor(this, R.color.light_color)
+        darkColor = ContextCompat.getColor(this, R.color.dark_color)
+        quienCardColor = ContextCompat.getColor(this, R.color.quien_card_color)
+        tuCardColor = ContextCompat.getColor(this, R.color.tu_card_color)
+        instructionCardColor = ContextCompat.getColor(this, R.color.instruction_card_color)
 
 
         barajaQuien = BarajaQuien(this)
@@ -109,9 +116,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 3 -> {
                     createInstructionCardView("Quien la compra?")
-                    if(true){//Condicion de compra
+                    /*if(true){//Condicion de compra
 
-                    }
+                    }*/
                     nextCard = 0
                 }
                 4 -> {
@@ -133,19 +140,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun createQuienCardView(text: String) {
         val inflater = LayoutInflater.from(this)
         val cardView = inflater.inflate(R.layout.quien_card_view_item, cardContainer, false) as CardView
         cardView.radius = resources.getDimension(R.dimen.card_radius)
         cardView.cardElevation = resources.getDimension(R.dimen.card_elevation)
+        cardView.setCardBackgroundColor(quienCardColor)
 
-        val textViewContent = cardView.findViewById<TextView>(R.id.textViewCardContent)
-        textViewContent.text = text
-
-        // Configura el título u otra información si es necesario
-        val textViewTitle = cardView.findViewById<TextView>(R.id.textViewCardTitle)
+        val textViewTitle = cardView.findViewById<TextView>(R.id.textViewQuienCardTitle)
         textViewTitle.text = "Quien crees que..."
+        textViewTitle.typeface = typeFaceReg
+        textViewTitle.setTextColor(lightColor)
+
+
+        val textViewContent = cardView.findViewById<TextView>(R.id.textViewQuienCardContent)
+        textViewContent.text = text
+        textViewContent.typeface = typeFaceBig
+        textViewContent.setTextColor(lightColor)
+
+        val textViewQuienCardInstru = cardView.findViewById<TextView>(R.id.textViewQuienCardInstru)
+        textViewQuienCardInstru.text = "Toca para continuar"
+        textViewQuienCardInstru.typeface = typeFaceReg
+        textViewQuienCardInstru.setTextColor(lightColor)
+
+
 
         cardView.setOnClickListener {
             showNextFrase()
@@ -160,15 +178,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun createInstructionCardView(textInstruction: String) {
         val inflater = LayoutInflater.from(this)
-        val cardView = inflater.inflate(R.layout.quien_card_view_item, cardContainer, false) as CardView
+        val cardView = inflater.inflate(R.layout.instruction_card_view_item, cardContainer, false) as CardView
         cardView.radius = resources.getDimension(R.dimen.card_radius)
         cardView.cardElevation = resources.getDimension(R.dimen.card_elevation)
+        cardView.setCardBackgroundColor(instructionCardColor)
 
-        val textViewTitle = cardView.findViewById<TextView>(R.id.textViewCardTitle)
-        textViewTitle.text = "Quien crees que..."
+        val textViewInstruCardContent = cardView.findViewById<TextView>(R.id.textViewInstruCardContent)
+        textViewInstruCardContent.text = textInstruction
+        textViewInstruCardContent.typeface = typeFaceBig
+        textViewInstruCardContent.setTextColor(lightColor)
 
-        val textViewContent = cardView.findViewById<TextView>(R.id.textViewCardContent)
-        textViewContent.text = textInstruction
+        val textViewInstruCardInstru = cardView.findViewById<TextView>(R.id.textViewInstruCardInstru)
+        textViewInstruCardInstru.text = "Toca para continuar"
+        textViewInstruCardInstru.typeface = typeFaceReg
+        textViewInstruCardInstru.setTextColor(lightColor)
+
+
 
 
 
@@ -185,22 +210,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun createTuCardView(carta: CartaTu) {
         val inflater = LayoutInflater.from(this)
-        val cardView = inflater.inflate(R.layout.quien_card_view_item, cardContainer, false) as CardView
+        val cardView = inflater.inflate(R.layout.tu_card_view_item, cardContainer, false) as CardView
         cardView.radius = resources.getDimension(R.dimen.card_radius)
         cardView.cardElevation = resources.getDimension(R.dimen.card_elevation)
+        cardView.setCardBackgroundColor(tuCardColor)
 
-        val textViewContent = cardView.findViewById<TextView>(R.id.textViewCardContent)
+        val textViewTuCardTitle = cardView.findViewById<TextView>(R.id.textViewTuCardTitle)
         when (carta.revela) {
-            0 ->textViewContent.text = "No se revela"
-            1 -> textViewContent.text = "Se revela a todos menos a ti"
-            2 -> textViewContent.text = "Se revela"
-            3 -> textViewContent.text = "Se revela la anterior"
+            0 ->textViewTuCardTitle.text = "No se revela"
+            1 -> textViewTuCardTitle.text = "Se revela a todos menos a ti"
+            2 -> textViewTuCardTitle.text = "Se revela"
+            3 -> textViewTuCardTitle.text = "Se revela la anterior"
         }
+        textViewTuCardTitle.typeface = typeFaceBig
+        textViewTuCardTitle.setTextColor(lightColor)
 
 
-        // Configura el título u otra información si es necesario
-        val textViewTitle = cardView.findViewById<TextView>(R.id.textViewCardTitle)
-        textViewTitle.text = "Shots: "+carta.shots
+
+        val textViewTuCardInstru = cardView.findViewById<TextView>(R.id.textViewTuCardInstru)
+        textViewTuCardInstru.text = "Toca para continuar"
+        textViewTuCardInstru.typeface = typeFaceReg
+        textViewTuCardInstru.setTextColor(lightColor)
+
+
+
 
         cardView.setOnClickListener {
             showNextFrase()
