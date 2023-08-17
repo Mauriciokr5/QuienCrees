@@ -10,6 +10,7 @@ import androidx.cardview.widget.CardView
 import android.widget.TextView
 import android.view.View
 import android.graphics.Typeface
+import android.view.Gravity
 import androidx.core.content.ContextCompat
 import android.widget.ImageView
 
@@ -225,7 +226,25 @@ class MainActivity : AppCompatActivity() {
         textViewTuCardTitle.typeface = typeFaceBig
         textViewTuCardTitle.setTextColor(lightColor)
 
+        val linearLayout = cardView.findViewById<LinearLayout>(R.id.llimages)
 
+        for (i in 0 until carta.shots) {
+            val imageViewShot = ImageView(this)
+            /*val layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT// Cambia esta dimensión
+
+            )*/
+            val layoutParams = LinearLayout.LayoutParams(
+                resources.getDimensionPixelSize(R.dimen.shot_image_width), // Cambia esta dimensión
+                resources.getDimensionPixelSize(R.dimen.shot_image_height) // Cambia esta dimensión
+            )
+            layoutParams.gravity = Gravity.CENTER
+            layoutParams.marginStart = resources.getDimensionPixelSize(R.dimen.shot_margin)
+            imageViewShot.layoutParams = layoutParams
+            imageViewShot.setImageResource(R.drawable.shot) // Cambia esto por tu imagen
+            linearLayout.addView(imageViewShot)
+        }
 
         val textViewTuCardInstru = cardView.findViewById<TextView>(R.id.textViewTuCardInstru)
         textViewTuCardInstru.text = "Toca para continuar"
