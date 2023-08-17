@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MainActivity"
+    android:id="@+id/cardContainer">
+
+    <!-- Agrega un CardView para crear el cuadro con bordes redondeados -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:cardCornerRadius="50dp"
+        app:cardElevation="8dp">
+
+        <!-- Agrega un LinearLayout dentro del CardView para el contenido -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Agrega aquí los elementos que quieras mostrar en el cuadro -->
+            <TextView
+                android:id="@+id/textViewQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bienvenido a"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewFrase"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quien crees que..."
+                android:textSize="18sp" />
+
+            <Button
+                android:id="@+id/buttonNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Empezar" />
+
+            <!-- Agrega otros elementos según tus necesidades -->
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>
