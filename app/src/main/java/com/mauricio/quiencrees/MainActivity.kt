@@ -19,6 +19,7 @@ import android.widget.ImageView
 
 class MainActivity : AppCompatActivity() {
 
+    // Declare properties for various UI elements and variables
     private lateinit var barajaQuien: BarajaQuien
     private lateinit var barajaTu: BarajaTu
     private lateinit var cardContainer: LinearLayout
@@ -33,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var typeFaceBig : Typeface
     private lateinit var typeFaceReg :Typeface
 
+    // Color variables
     private var lightColor : Int = 0
     private var darkColor :Int = 0
     private var quienCardColor :Int = 0
@@ -44,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        // Initialize typefaces and colors
         typeFaceBig = Typeface.createFromAsset(assets,"fonts/Gotham Regular.otf")
         typeFaceReg = Typeface.createFromAsset(assets,"fonts/Gotham Light.otf")
 
@@ -54,14 +56,12 @@ class MainActivity : AppCompatActivity() {
         tuCardColor = ContextCompat.getColor(this, R.color.tu_card_color)
         instructionCardColor = ContextCompat.getColor(this, R.color.instruction_card_color)
 
-
+        // Creation of the two decks "Quien" and "Tu"
         barajaQuien = BarajaQuien(this)
         barajaTu = BarajaTu(barajaQuien.baraja.size)
 
+        // Initialize UI elements from layout
         cardContainer = findViewById(R.id.cardContainer)
-
-
-
         cardView = findViewById(R.id.cardView)
         cardView.setCardBackgroundColor(instructionCardColor)
 
@@ -79,12 +79,12 @@ class MainActivity : AppCompatActivity() {
         buttonNext.typeface = typeFaceBig
         buttonNext.setTextColor(darkColor)
 
-
+        // Set click listener for "Empezar" button
         buttonNext.setOnClickListener {
             showNextFrase()
         }
     }
-
+    // Logic to show the next card or instruction
     private fun showNextFrase() {
         if (previousCardView != null) {
             cardContainer.removeView(previousCardView)
@@ -96,46 +96,47 @@ class MainActivity : AppCompatActivity() {
 
 
             when (nextCard) {
-                0 ->{//Evento Carta Quien
+                0 ->{//Show Card Quien
                     createQuienCardView(barajaQuien.baraja[currentIndex])
                     currentIndex++
                     nextCard = 1
                 }
-                1 -> {
+                1 -> {//Card to give the phone to selected player
                     createInstructionCardView("Pasa el telefono a QUIEN CREAS")
                     nextCard = 2
                 }
-                2 -> {
+                2 -> {// Card showing "Tu" information
                     cartaTuActual = barajaTu.baraja[currentIndex]
                     createTuCardView(cartaTuActual)
                     when (cartaTuActual.revela) {
-                        0 -> nextCard = 3 //No se revela
-                        1 -> nextCard = 4 //Se revela a todos menosa ti
-                        2 -> nextCard = 5 //Se revela
-                        3 -> nextCard = 6 //Se revela la anterior
+                        0 -> nextCard = 3 // No se revela (Not revealed)
+                        1 -> nextCard = 4 // Se revela a todos menos a ti (Revealed to everyone except you)
+                        2 -> nextCard = 5 // Se revela (Revealed)
+                        3 -> nextCard = 6 // Se revela la anterior (The previous one is revealed)
                     }
                 }
-                3 -> {
+                3 -> {// Card for buying option
                     createCompraCardView()
                     nextCard = 7
                 }
-                4 -> {
+                4 -> {// Card to give the phone to the others players
                     createInstructionCardView("Pasa el telefono a los DEMÁS jugadores")
                     nextCard = 5
                 }
-                5 -> {
+                5 -> {// Show actual Quien card again
                     createQuienCardView(barajaQuien.baraja[currentIndex-1])
                     nextCard = 7
                 }
-                6 -> {
-                    createQuienCardView(barajaQuien.baraja[currentIndex-2])
+                6 -> {// Show previous Quien card again
+                    if(currentIndex >= 2)
+                        createQuienCardView(barajaQuien.baraja[currentIndex-2])
                     nextCard = 7
                 }
-                7 -> {
+                7 -> {// Card to pass phone to the next player
                     createInstructionCardView("Pasa el telefono al SIGUIENTE jugador")
                     nextCard = 0
                 }
-                8 ->{
+                8 ->{// Card to pass phone to the buyer
                     createInstructionCardView("Pasa el telefono al COMPRADOR")
                     nextCard = 6
                 }
@@ -146,6 +147,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Functions to create different types of card views
     private fun createQuienCardView(text: String) {
         val inflater = LayoutInflater.from(this)
         val cardView = inflater.inflate(R.layout.quien_card_view_item, cardContainer, false) as CardView
@@ -164,11 +166,11 @@ class MainActivity : AppCompatActivity() {
         textViewContent.typeface = typeFaceBig
         textViewContent.setTextColor(lightColor)
 
+
         val textViewQuienCardInstru = cardView.findViewById<TextView>(R.id.textViewQuienCardInstru)
         textViewQuienCardInstru.text = "Toca para continuar"
         textViewQuienCardInstru.typeface = typeFaceReg
         textViewQuienCardInstru.setTextColor(lightColor)
-
 
 
         cardView.setOnClickListener {
@@ -178,7 +180,6 @@ class MainActivity : AppCompatActivity() {
         cardContainer.addView(cardView)
         animateCardView(cardView)
 
-        // Actualizar la tarjeta anterior
         previousCardView = cardView
     }
 
@@ -306,6 +307,7 @@ class MainActivity : AppCompatActivity() {
         previousCardView = cardView
     }
 
+    // Function to animate card view
     private fun animateCardView(cardView: CardView) {
         val anim = AnimationUtils.loadAnimation(this, R.anim.fade_in)
         cardView.startAnimation(anim)

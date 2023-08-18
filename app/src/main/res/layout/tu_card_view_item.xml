@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:padding="16dp"
         android:gravity="center">
 
         <TextView
@@ -18,8 +19,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="40dp"
-            android:text="Título de la Tarjeta"
+            android:text="Se revela para todos menos para ti"
+            android:padding="30dp"
             android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/textViewTomaTuCardInstru"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:text="Toma:"
+            android:textColor="@color/light_color"/>
 
         <LinearLayout
             android:id="@+id/llimages"

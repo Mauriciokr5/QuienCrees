@@ -2,7 +2,7 @@
 <resources>
     <dimen name="card_radius">50dp</dimen>
     <dimen name="card_elevation">0dp</dimen>
-    <dimen name="shot_margin">1dp</dimen>
+    <dimen name="shot_margin">0dp</dimen>
     <dimen name="shot_image_width">80dp</dimen>
     <dimen name="shot_image_height">80dp</dimen>
 </resources>

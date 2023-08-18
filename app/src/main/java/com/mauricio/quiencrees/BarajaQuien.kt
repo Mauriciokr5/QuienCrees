@@ -7,6 +7,7 @@ import java.io.InputStreamReader
 class BarajaQuien(private val context: Context) {
     public val baraja: MutableList<String> = leerFrases()
 
+    // Get phrases from the file phrases.txt and store them in a MutableList
     private fun leerFrases(): MutableList<String> {
         val frases = mutableListOf<String>()
 
