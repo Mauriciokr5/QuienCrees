@@ -102,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                     nextCard = 1
                 }
                 1 -> {
-                    createInstructionCardView("Pasa el telefono a quien creas")
+                    createInstructionCardView("Pasa el telefono a QUIEN CREAS")
                     nextCard = 2
                 }
                 2 -> {
@@ -116,23 +116,28 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 3 -> {
-                    createInstructionCardView("Quien la compra?")
-                    /*if(true){//Condicion de compra
-
-                    }*/
-                    nextCard = 0
+                    createCompraCardView()
+                    nextCard = 7
                 }
                 4 -> {
-                    createInstructionCardView("Pasa el telefono a los demas jugadores")
+                    createInstructionCardView("Pasa el telefono a los DEMÁS jugadores")
                     nextCard = 5
                 }
                 5 -> {
                     createQuienCardView(barajaQuien.baraja[currentIndex-1])
-                    nextCard = 0
+                    nextCard = 7
                 }
                 6 -> {
                     createQuienCardView(barajaQuien.baraja[currentIndex-2])
+                    nextCard = 7
+                }
+                7 -> {
+                    createInstructionCardView("Pasa el telefono al SIGUIENTE jugador")
                     nextCard = 0
+                }
+                8 ->{
+                    createInstructionCardView("Pasa el telefono al COMPRADOR")
+                    nextCard = 6
                 }
             }
         } else {
@@ -209,6 +214,47 @@ class MainActivity : AppCompatActivity() {
         previousCardView = cardView
     }
 
+    private fun createCompraCardView() {
+        val inflater = LayoutInflater.from(this)
+        val cardView = inflater.inflate(R.layout.compra_card_view_item, cardContainer, false) as CardView
+        cardView.radius = resources.getDimension(R.dimen.card_radius)
+        cardView.cardElevation = resources.getDimension(R.dimen.card_elevation)
+        cardView.setCardBackgroundColor(instructionCardColor)
+
+        val textViewInstruCardContent = cardView.findViewById<TextView>(R.id.textViewInstruCardContent)
+        textViewInstruCardContent.text = "¿Alguien paga para ver?"
+        textViewInstruCardContent.typeface = typeFaceBig
+        textViewInstruCardContent.setTextColor(lightColor)
+
+
+        val buttonSiCompra = cardView.findViewById<TextView>(R.id.buttonSiCompra)
+        buttonSiCompra.setBackgroundColor(lightColor)
+        buttonSiCompra.setBackgroundResource(R.drawable.rounded_button_background)
+        buttonSiCompra.typeface = typeFaceBig
+        buttonSiCompra.setTextColor(darkColor)
+        buttonSiCompra.setOnClickListener {
+            nextCard = 8
+            showNextFrase()
+        }
+
+
+        val buttonNoCompra = cardView.findViewById<TextView>(R.id.buttonNoCompra)
+        buttonNoCompra.setBackgroundColor(lightColor)
+        buttonNoCompra.setBackgroundResource(R.drawable.rounded_button_background)
+        buttonNoCompra.typeface = typeFaceBig
+        buttonNoCompra.setTextColor(darkColor)
+        buttonNoCompra.setOnClickListener {
+            nextCard = 7
+            showNextFrase()
+        }
+
+        cardContainer.addView(cardView)
+        animateCardView(cardView)
+
+        // Actualizar la tarjeta anterior
+        previousCardView = cardView
+    }
+
     private fun createTuCardView(carta: CartaTu) {
         val inflater = LayoutInflater.from(this)
         val cardView = inflater.inflate(R.layout.tu_card_view_item, cardContainer, false) as CardView
@@ -230,11 +276,6 @@ class MainActivity : AppCompatActivity() {
 
         for (i in 0 until carta.shots) {
             val imageViewShot = ImageView(this)
-            /*val layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT// Cambia esta dimensión
-
-            )*/
             val layoutParams = LinearLayout.LayoutParams(
                 resources.getDimensionPixelSize(R.dimen.shot_image_width), // Cambia esta dimensión
                 resources.getDimensionPixelSize(R.dimen.shot_image_height) // Cambia esta dimensión
@@ -264,7 +305,6 @@ class MainActivity : AppCompatActivity() {
         // Actualizar la tarjeta anterior
         previousCardView = cardView
     }
-
 
     private fun animateCardView(cardView: CardView) {
         val anim = AnimationUtils.loadAnimation(this, R.anim.fade_in)
