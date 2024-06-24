@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.view.View
 import android.graphics.Typeface
 import android.view.Gravity
+import android.widget.CheckBox
 import androidx.core.content.ContextCompat
 import android.widget.ImageView
 
@@ -26,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var buttonNext: Button
     private lateinit var textViewWelcome: TextView
     private lateinit var textViewTitleApp: TextView
+    private lateinit var textViewAddDeck: TextView
+    private lateinit var checkBoxHostil: CheckBox
+    private lateinit var checkBoxSexual: CheckBox
     private var currentIndex = 0
     private var previousCardView: CardView? = null
     private var nextCard = 0
@@ -57,8 +61,7 @@ class MainActivity : AppCompatActivity() {
         instructionCardColor = ContextCompat.getColor(this, R.color.instruction_card_color)
 
         // Creation of the two decks "Quien" and "Tu"
-        barajaQuien = BarajaQuien(this)
-        barajaTu = BarajaTu(barajaQuien.baraja.size)
+
 
         // Initialize UI elements from layout
         cardContainer = findViewById(R.id.cardContainer)
@@ -73,6 +76,20 @@ class MainActivity : AppCompatActivity() {
         textViewTitleApp.typeface = typeFaceBig
         textViewTitleApp.setTextColor(lightColor)
 
+        textViewAddDeck = findViewById(R.id.textViewAddDeck)
+        textViewAddDeck.typeface = typeFaceReg
+        textViewAddDeck.setTextColor(lightColor)
+
+        checkBoxHostil = findViewById(R.id.checkBoxHostil)
+        checkBoxHostil.typeface = typeFaceReg
+        checkBoxHostil.setTextColor(lightColor)
+        checkBoxHostil.buttonTintList = ContextCompat.getColorStateList(this, R.color.checkbox_color)
+
+        checkBoxSexual = findViewById(R.id.checkBoxSexual)
+        checkBoxSexual.typeface = typeFaceReg
+        checkBoxSexual.setTextColor(lightColor)
+        checkBoxSexual.buttonTintList = ContextCompat.getColorStateList(this, R.color.checkbox_color)
+
         buttonNext = findViewById(R.id.buttonNext)
         buttonNext.setBackgroundColor(lightColor)
         buttonNext.setBackgroundResource(R.drawable.rounded_button_background)
@@ -81,6 +98,9 @@ class MainActivity : AppCompatActivity() {
 
         // Set click listener for "Empezar" button
         buttonNext.setOnClickListener {
+            val checklist = booleanArrayOf(true, checkBoxHostil.isChecked, checkBoxSexual.isChecked)
+            barajaQuien = BarajaQuien(this,checklist)
+            barajaTu = BarajaTu(barajaQuien.baraja.size)
             showNextFrase()
         }
     }
@@ -138,7 +158,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 8 ->{// Card to pass phone to the buyer
                     createInstructionCardView("Pasa el telefono al COMPRADOR")
-                    nextCard = 6
+                    nextCard = 5
                 }
             }
         } else {

@@ -41,6 +41,27 @@
                 android:textSize="40dp"
                 android:padding="15dp"/>
 
+            <TextView
+                android:id="@+id/textViewAddDeck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Agregar baraja:"
+                android:textSize="20dp"
+                android:gravity="center"
+                android:padding="10dp"/>
+
+            <CheckBox
+                android:id="@+id/checkBoxHostil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hostil" />
+
+            <CheckBox
+                android:id="@+id/checkBoxSexual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sexual" />
+
             <Button
                 android:id="@+id/buttonNext"
                 android:layout_width="wrap_content"

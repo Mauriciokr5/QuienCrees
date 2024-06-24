@@ -5,6 +5,8 @@ import kotlin.random.Random
 class BarajaTu(tamBaraja: Int) {
     public val baraja: List<CartaTu>
     private val maxShots = 4
+    private val numeros = listOf(1, 2, 3, 4)
+    private val probabilidades = listOf(0.4, 0.3, 0.2, 0.1)
 
     init {
         baraja = generaBaraja(tamBaraja)
@@ -20,10 +22,29 @@ class BarajaTu(tamBaraja: Int) {
                 randomRevela = random.nextInt(4)
             } while (randomRevela == 3 && (cartas.isEmpty() || cartas[i - 1].revela == 2))
 
-            randomShots = random.nextInt(maxShots - 1 + 1) + 1
+            randomShots = elegirNumeroConProbabilidad(numeros, probabilidades)
             val ct = CartaTu(randomRevela, randomShots)
             cartas.add(ct)
         }
         return cartas
     }
+
+    fun elegirNumeroConProbabilidad(numeros: List<Int>, probabilidades: List<Double>): Int {
+        require(numeros.size == probabilidades.size) { "La lista de números y probabilidades deben tener la misma longitud" }
+
+        val random = Random.nextDouble()
+        var acumulativo = 0.0
+
+        for (i in numeros.indices) {
+            acumulativo += probabilidades[i]
+            if (random < acumulativo) {
+                return numeros[i]
+            }
+        }
+
+        // En caso de que no se elija ningún número, regresa el último
+        return numeros.last()
+    }
+
+
 }
