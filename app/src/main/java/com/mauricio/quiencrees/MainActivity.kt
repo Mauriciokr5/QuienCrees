@@ -14,8 +14,7 @@ import android.view.Gravity
 import android.widget.CheckBox
 import androidx.core.content.ContextCompat
 import android.widget.ImageView
-
-
+import android.widget.Toast
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +27,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var textViewWelcome: TextView
     private lateinit var textViewTitleApp: TextView
     private lateinit var textViewAddDeck: TextView
+    private lateinit var checkBoxChill: CheckBox
     private lateinit var checkBoxHostil: CheckBox
     private lateinit var checkBoxSexual: CheckBox
     private var currentIndex = 0
@@ -80,6 +80,11 @@ class MainActivity : AppCompatActivity() {
         textViewAddDeck.typeface = typeFaceReg
         textViewAddDeck.setTextColor(lightColor)
 
+        checkBoxChill = findViewById(R.id.checkBoxChill)
+        checkBoxChill.typeface = typeFaceReg
+        checkBoxChill.setTextColor(lightColor)
+        checkBoxChill.buttonTintList = ContextCompat.getColorStateList(this, R.color.checkbox_color)
+
         checkBoxHostil = findViewById(R.id.checkBoxHostil)
         checkBoxHostil.typeface = typeFaceReg
         checkBoxHostil.setTextColor(lightColor)
@@ -98,11 +103,19 @@ class MainActivity : AppCompatActivity() {
 
         // Set click listener for "Empezar" button
         buttonNext.setOnClickListener {
-            val checklist = booleanArrayOf(true, checkBoxHostil.isChecked, checkBoxSexual.isChecked)
-            barajaQuien = BarajaQuien(this,checklist)
-            barajaTu = BarajaTu(barajaQuien.baraja.size)
-            showNextFrase()
+            val checklist = booleanArrayOf(checkBoxChill.isChecked, checkBoxHostil.isChecked, checkBoxSexual.isChecked)
+
+            // Verifica si al menos una opción está seleccionada
+            if (checklist.none { it }) {
+                Toast.makeText(this, "Debe seleccionar al menos una baraja", Toast.LENGTH_SHORT).show()
+            } else {
+                // Continúa con el proceso si al menos una opción está seleccionada
+                barajaQuien = BarajaQuien(this, checklist)
+                barajaTu = BarajaTu(barajaQuien.baraja.size)
+                showNextFrase()
+            }
         }
+
     }
     // Logic to show the next card or instruction
     private fun showNextFrase() {
