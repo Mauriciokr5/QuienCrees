@@ -1,5 +1,6 @@
 package com.mauricio.quiencrees
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var barajaTu: BarajaTu
     private lateinit var cardContainer: LinearLayout
     private lateinit var buttonNext: Button
+    private lateinit var buttonTutorial: Button
     private lateinit var textViewWelcome: TextView
     private lateinit var textViewTitleApp: TextView
     private lateinit var textViewAddDeck: TextView
@@ -101,6 +103,12 @@ class MainActivity : AppCompatActivity() {
         buttonNext.typeface = typeFaceBig
         buttonNext.setTextColor(darkColor)
 
+        buttonTutorial = findViewById(R.id.buttonTutorial)
+        buttonTutorial.background = null
+        buttonTutorial.setBackgroundResource(R.drawable.rounded_botton_transparent)
+        buttonTutorial.typeface = typeFaceBig
+        buttonTutorial.setTextColor(lightColor)
+
         // Set click listener for "Empezar" button
         buttonNext.setOnClickListener {
             val checklist = booleanArrayOf(checkBoxChill.isChecked, checkBoxHostil.isChecked, checkBoxSexual.isChecked)
@@ -111,10 +119,16 @@ class MainActivity : AppCompatActivity() {
             } else {
                 // Continúa con el proceso si al menos una opción está seleccionada
                 barajaQuien = BarajaQuien(this, checklist)
-                barajaTu = BarajaTu(barajaQuien.baraja.size)
+                barajaTu = BarajaTu(barajaQuien.baraja.size+1)
                 showNextFrase()
             }
         }
+
+        buttonTutorial.setOnClickListener {
+            val intent = Intent(this, VideoActivity::class.java)
+            startActivity(intent)
+        }
+
 
     }
     // Logic to show the next card or instruction
@@ -125,20 +139,23 @@ class MainActivity : AppCompatActivity() {
             cardView.visibility = View.GONE
         }
 
-        if (currentIndex < barajaQuien.baraja.size) {
+        if (currentIndex < barajaQuien.baraja.size+1) {
 
 
             when (nextCard) {
                 0 ->{//Show Card Quien
+                    println(0)
                     createQuienCardView(barajaQuien.baraja[currentIndex])
                     currentIndex++
                     nextCard = 1
                 }
                 1 -> {//Card to give the phone to selected player
+                    println(1)
                     createInstructionCardView("Pasa el telefono a QUIEN CREAS")
                     nextCard = 2
                 }
                 2 -> {// Card showing "Tu" information
+                    println(2)
                     cartaTuActual = barajaTu.baraja[currentIndex]
                     createTuCardView(cartaTuActual)
                     when (cartaTuActual.revela) {
@@ -149,30 +166,46 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 3 -> {// Card for buying option
+                    println(3)
                     createCompraCardView()
                     nextCard = 7
                 }
                 4 -> {// Card to give the phone to the others players
+                    println(4)
                     createInstructionCardView("Pasa el telefono a los DEMÁS jugadores")
                     nextCard = 5
                 }
                 5 -> {// Show actual Quien card again
+                    println(5)
                     createQuienCardView(barajaQuien.baraja[currentIndex-1])
                     nextCard = 7
                 }
                 6 -> {// Show previous Quien card again
+                    println(6)
                     if(currentIndex >= 2)
                         createQuienCardView(barajaQuien.baraja[currentIndex-2])
                     nextCard = 7
                 }
                 7 -> {// Card to pass phone to the next player
+                    println(7)
                     createInstructionCardView("Pasa el telefono al SIGUIENTE jugador")
+                    println(""+currentIndex+""+barajaQuien.baraja.size)
+                    if(currentIndex == barajaQuien.baraja.size){
+                        // Aquí reinicia la actividad
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+                        startActivity(intent)
+                        finish()
+                    }
+
                     nextCard = 0
                 }
                 8 ->{// Card to pass phone to the buyer
+                    println(8)
                     createInstructionCardView("Pasa el telefono al COMPRADOR")
                     nextCard = 5
                 }
+
             }
         } else {
             cardView.visibility = View.VISIBLE

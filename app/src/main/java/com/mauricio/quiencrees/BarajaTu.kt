@@ -19,6 +19,8 @@ class BarajaTu(tamBaraja: Int) {
         var randomShots: Int
         for (i in 0 until tamBaraja) {
             do {// Do-while loop to ensure that a "The previous one is revealed" card isn't after a "Revealed" card
+                if (i==0)// Prevent the 'The previous one is revealed' card  from being the first.
+                    randomRevela = random.nextInt(3)
                 randomRevela = random.nextInt(4)
             } while (randomRevela == 3 && (cartas.isEmpty() || cartas[i - 1].revela == 2))
 

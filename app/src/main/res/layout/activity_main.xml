@@ -45,7 +45,7 @@
                 android:id="@+id/textViewAddDeck"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Selecciona baraja:"
+                android:text="Selecciona las barajas:"
                 android:textSize="20dp"
                 android:gravity="center"
                 android:padding="10dp"/>
@@ -74,6 +74,15 @@
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 android:text="Empezar"
+                android:textSize="20dp"
+                android:layout_marginTop = "20dp"/>
+
+            <Button
+                android:id="@+id/buttonTutorial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:text="Tutorial"
                 android:textSize="20dp"
                 android:layout_marginTop = "20dp"/>
 
