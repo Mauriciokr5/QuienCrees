@@ -11,7 +11,7 @@ class BarajaQuien(private val context: Context, val checklist: BooleanArray) {
     private fun leerFrases(): MutableList<String> {
         val frases = mutableListOf<String>()
 
-        val files = intArrayOf(R.raw.chill,R.raw.hostil,R.raw.sexual)
+        val files = intArrayOf(R.raw.chill,R.raw.hostil,R.raw.picante)
 
         try {
 

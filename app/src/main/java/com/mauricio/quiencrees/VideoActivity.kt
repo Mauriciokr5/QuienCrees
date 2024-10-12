@@ -3,6 +3,7 @@ package com.mauricio.quiencrees
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.WindowManager
 import android.widget.MediaController
 import android.widget.VideoView
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +15,7 @@ class VideoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video)
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         // Habilitar el botón de regreso en la ActionBar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -23,7 +25,6 @@ class VideoActivity : AppCompatActivity() {
 
         // Configuración del MediaController
         val mediaController = MediaController(this)
-        mediaController.setAnchorView(videoView)
 
 
         // Configura el VideoView
@@ -32,7 +33,15 @@ class VideoActivity : AppCompatActivity() {
         videoView.requestFocus()
 
         // Inicia el video cuando esté listo
-        videoView.setOnPreparedListener {
+        videoView.setOnPreparedListener { mediaPlayer ->
+            // Obtener la relación de aspecto del video
+            val videoWidth = mediaPlayer.videoWidth
+            val videoHeight = mediaPlayer.videoHeight
+            val videoProportion = videoWidth.toFloat() / videoHeight.toFloat()
+
+            mediaController.setPadding(0, 500, 0, 0)
+
+            // Inicia el video
             videoView.start()
             mediaController.show(0) // Mostrar controles indefinidamente
         }
@@ -48,5 +57,10 @@ class VideoActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    // Liberar recursos cuando la actividad se destruya
+    override fun onDestroy() {
+        super.onDestroy()
+        videoView.stopPlayback() // Libera los recursos del video
     }
 }

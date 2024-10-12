@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.view.View
 import android.graphics.Typeface
 import android.view.Gravity
+import android.view.WindowManager
 import android.widget.CheckBox
 import androidx.core.content.ContextCompat
 import android.widget.ImageView
@@ -46,11 +47,19 @@ class MainActivity : AppCompatActivity() {
     private var quienCardColor :Int = 0
     private var tuCardColor :Int = 0
     private var instructionCardColor:Int = 0
+    private var isMainMenu: Boolean = true
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        isMainMenu = true
+        /*val decorView = window.decorView
+        decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)*/
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
         // Initialize typefaces and colors
         typeFaceBig = Typeface.createFromAsset(assets,"fonts/Gotham Regular.otf")
@@ -70,13 +79,13 @@ class MainActivity : AppCompatActivity() {
         cardView = findViewById(R.id.cardView)
         cardView.setCardBackgroundColor(instructionCardColor)
 
-        textViewWelcome = findViewById(R.id.textViewWelcome)
+        /*textViewWelcome = findViewById(R.id.textViewWelcome)
         textViewWelcome.typeface = typeFaceReg
-        textViewWelcome.setTextColor(lightColor)
+        textViewWelcome.setTextColor(lightColor)*/
 
-        textViewTitleApp = findViewById(R.id.textViewTitleApp)
+        /*textViewTitleApp = findViewById(R.id.textViewTitleApp)
         textViewTitleApp.typeface = typeFaceBig
-        textViewTitleApp.setTextColor(lightColor)
+        textViewTitleApp.setTextColor(lightColor)*/
 
         textViewAddDeck = findViewById(R.id.textViewAddDeck)
         textViewAddDeck.typeface = typeFaceReg
@@ -118,8 +127,10 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Debe seleccionar al menos una baraja", Toast.LENGTH_SHORT).show()
             } else {
                 // Continúa con el proceso si al menos una opción está seleccionada
+                isMainMenu = false
                 barajaQuien = BarajaQuien(this, checklist)
                 barajaTu = BarajaTu(barajaQuien.baraja.size+1)
+                println("baraja[0]: "+barajaTu.baraja[0].revela)
                 showNextFrase()
             }
         }
@@ -212,6 +223,33 @@ class MainActivity : AppCompatActivity() {
             currentIndex = 0
         }
     }
+    private var backPressedTime: Long = 0
+    private lateinit var toast: Toast
+
+    override fun onBackPressed() {
+
+        if(!isMainMenu) {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(intent)
+            finish() // Cierra la actividad actual para evitar que vuelva con el botón de retroceso
+
+        }else {
+            // Si se presiona el botón de regreso dos veces en un intervalo de 2 segundos, salir de la app
+            if (backPressedTime + 2000 > System.currentTimeMillis()) {
+                toast.cancel()  // Cancelar el Toast si está visible
+                super.onBackPressed()  // Salir de la aplicación
+                return
+            } else {
+                // Mostrar un mensaje para avisar al usuario que presione de nuevo para salir
+                toast = Toast.makeText(this, "Presiona de nuevo para salir", Toast.LENGTH_SHORT)
+                toast.show()
+            }
+            backPressedTime = System.currentTimeMillis()
+        }
+    }
+
+
 
     // Functions to create different types of card views
     private fun createQuienCardView(text: String) {
@@ -350,7 +388,7 @@ class MainActivity : AppCompatActivity() {
             layoutParams.gravity = Gravity.CENTER
             layoutParams.marginStart = resources.getDimensionPixelSize(R.dimen.shot_margin)
             imageViewShot.layoutParams = layoutParams
-            imageViewShot.setImageResource(R.drawable.shot) // Cambia esto por tu imagen
+            imageViewShot.setImageResource(R.drawable.shot)
             linearLayout.addView(imageViewShot)
         }
 

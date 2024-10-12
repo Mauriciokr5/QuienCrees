@@ -11,7 +11,7 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:cardCornerRadius="50dp"
         app:cardElevation="8dp">
@@ -23,23 +23,13 @@
             android:padding="50dp"
             android:gravity="center">
 
-            <TextView
-                android:id="@+id/textViewWelcome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bienvenido a"
-                android:textSize="20dp"
-                android:gravity="center"
-                android:padding="10dp"/>
 
-            <TextView
-                android:id="@+id/textViewTitleApp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Quien crees que..."
-                android:textSize="40dp"
-                android:padding="15dp"/>
+
+            <ImageView
+                android:id="@+id/imageViewLogo"
+                android:layout_width="250dp"
+                android:layout_height="250dp"
+                android:src="@drawable/logo"/>
 
             <TextView
                 android:id="@+id/textViewAddDeck"
@@ -54,7 +44,7 @@
                 android:id="@+id/checkBoxChill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Chill" />
+                android:text="Relajado" />
 
             <CheckBox
                 android:id="@+id/checkBoxHostil"
@@ -66,7 +56,7 @@
                 android:id="@+id/checkBoxSexual"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sexual" />
+                android:text="Picante" />
 
             <Button
                 android:id="@+id/buttonNext"

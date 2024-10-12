@@ -21,8 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VideoActivity"
-            android:theme="@style/VideoTheme" />
+        <activity
+            android:name=".VideoActivity"
+            android:theme="@style/VideoTheme"
+            android:resizeableActivity="true"
+            android:screenOrientation="portrait"/>
 
 
 

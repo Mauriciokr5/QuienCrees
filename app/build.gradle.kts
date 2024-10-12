@@ -5,16 +5,15 @@ plugins {
 
 android {
     namespace = "com.mauricio.quiencrees"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.mauricio.quiencrees"
         minSdk = 29
-        targetSdk = 33
-        versionCode = 1
+        targetSdk = 34
+        versionCode = 5
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
