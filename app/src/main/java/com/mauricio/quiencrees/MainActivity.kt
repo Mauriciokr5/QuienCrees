@@ -54,10 +54,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         isMainMenu = true
-        /*val decorView = window.decorView
+        val decorView = window.decorView
         decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN
                 or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)*/
+                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY)
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 
@@ -157,7 +157,7 @@ class MainActivity : AppCompatActivity() {
                 0 ->{//Show Card Quien
                     println(0)
                     createQuienCardView(barajaQuien.baraja[currentIndex])
-                    currentIndex++
+
                     nextCard = 1
                 }
                 1 -> {//Card to give the phone to selected player
@@ -168,6 +168,7 @@ class MainActivity : AppCompatActivity() {
                 2 -> {// Card showing "Tu" information
                     println(2)
                     cartaTuActual = barajaTu.baraja[currentIndex]
+                    currentIndex++
                     createTuCardView(cartaTuActual)
                     when (cartaTuActual.revela) {
                         0 -> nextCard = 3 // No se revela (Not revealed)

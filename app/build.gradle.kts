@@ -11,8 +11,8 @@ android {
         applicationId = "com.mauricio.quiencrees"
         minSdk = 29
         targetSdk = 34
-        versionCode = 5
-        versionName = "1.0"
+        versionCode = 7
+        versionName = "1.2"
 
         vectorDrawables {
             useSupportLibrary = true
