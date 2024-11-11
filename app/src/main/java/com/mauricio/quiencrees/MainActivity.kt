@@ -17,6 +17,7 @@ import android.widget.CheckBox
 import androidx.core.content.ContextCompat
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.marginLeft
 
 
 class MainActivity : AppCompatActivity() {
@@ -185,7 +186,7 @@ class MainActivity : AppCompatActivity() {
                 4 -> {// Card to give the phone to the others players
                     println(4)
                     createInstructionCardView("Pasa el telefono a los DEMÁS jugadores")
-                    nextCard = 5
+                    nextCard = 10
                 }
                 5 -> {// Show actual Quien card again
                     println(5)
@@ -215,7 +216,18 @@ class MainActivity : AppCompatActivity() {
                 8 ->{// Card to pass phone to the buyer
                     println(8)
                     createInstructionCardView("Pasa el telefono al COMPRADOR")
-                    nextCard = 5
+                    nextCard = 9
+                }
+                9 ->{// Card Quien to the buyer
+                    println(9)
+                    createQuienCardView(barajaQuien.baraja[currentIndex-1])
+                    nextCard = 7
+                }
+
+                10 -> {// Show actual Quien card again
+                    println(10)
+                    createQuienCardView(barajaQuien.baraja[currentIndex-1])
+                    nextCard = 7
                 }
 
             }
@@ -256,9 +268,7 @@ class MainActivity : AppCompatActivity() {
     private fun createQuienCardView(text: String) {
         val inflater = LayoutInflater.from(this)
         val cardView = inflater.inflate(R.layout.quien_card_view_item, cardContainer, false) as CardView
-        cardView.radius = resources.getDimension(R.dimen.card_radius)
-        cardView.cardElevation = resources.getDimension(R.dimen.card_elevation)
-        cardView.setCardBackgroundColor(quienCardColor)
+
 
         val textViewTitle = cardView.findViewById<TextView>(R.id.textViewQuienCardTitle)
         textViewTitle.text = "Quien crees que..."
@@ -276,6 +286,28 @@ class MainActivity : AppCompatActivity() {
         textViewQuienCardInstru.text = "Toca para continuar"
         textViewQuienCardInstru.typeface = typeFaceReg
         textViewQuienCardInstru.setTextColor(lightColor)
+
+        val textViewQuienCardBottomInstru = cardView.findViewById<TextView>(R.id.textViewQuienCardBottomInstru)
+
+        when (nextCard) {
+            0 ->{
+                textViewQuienCardBottomInstru.text = "Solo tú puedes ver! Toca y pasa a quien creas"
+            }
+            5 ->{
+                textViewQuienCardBottomInstru.text = "Se revela a todos"
+            }
+            6 ->{
+                textViewQuienCardBottomInstru.text = "Se revela la carta del turno anterior"
+            }
+            9 ->{
+                textViewQuienCardBottomInstru.text = "Solos los compradores pueden ver"
+            }
+            10 ->{
+                textViewQuienCardBottomInstru.text = "Quien recibió la carta no puede ver!"
+            }
+        }
+        textViewQuienCardBottomInstru.typeface = typeFaceReg
+        textViewQuienCardBottomInstru.setTextColor(lightColor)
 
 
         cardView.setOnClickListener {

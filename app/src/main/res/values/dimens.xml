@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="card_radius">50dp</dimen>
+    <dimen name="card_radius_0dp">50dp</dimen>
     <dimen name="card_elevation">0dp</dimen>
     <dimen name="shot_margin">0dp</dimen>
     <dimen name="shot_image_width">80dp</dimen>
